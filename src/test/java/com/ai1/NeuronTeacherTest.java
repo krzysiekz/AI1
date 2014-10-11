@@ -9,9 +9,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by krzysiek on 05.10.14.
- */
 public class NeuronTeacherTest {
     public static final double EPSILON = 0.1;
     public static final double LEARNING_RATE = 0.1;

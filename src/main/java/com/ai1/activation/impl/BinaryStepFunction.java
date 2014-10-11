@@ -3,7 +3,7 @@ package com.ai1.activation.impl;
 import com.ai1.activation.ActivationFunction;
 
 /**
- * Created by krzysiek on 11.10.14, 11.
+ * The type Binary step function.
  */
 public class BinaryStepFunction implements ActivationFunction {
 

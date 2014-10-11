@@ -7,12 +7,12 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by krzysiek on 11.10.14.
+ * The type Binary step function test.
  */
 public class BinaryStepFunctionTest {
 
-    public static final double DOUBLE_DELTA = 0.0001;
-    ActivationFunction activationFunction;
+    private static final double DOUBLE_DELTA = 0.0001;
+    private ActivationFunction activationFunction;
 
     @Before
     public void setUp() {

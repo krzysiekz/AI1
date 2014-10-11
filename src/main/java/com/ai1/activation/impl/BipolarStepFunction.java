@@ -1,9 +1,10 @@
 package com.ai1.activation.impl;
 
 /**
- * Created by krzysiek on 11.10.14.
+ * The type Bipolar step function.
  */
 public class BipolarStepFunction implements com.ai1.activation.ActivationFunction {
+
     @Override
     public Double calculate(double inputValue) {
         if(inputValue < 0) {

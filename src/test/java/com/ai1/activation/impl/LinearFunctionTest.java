@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by krzysiek on 07.10.14.
+ * The type Linear function test.
  */
 public class LinearFunctionTest {
     @Test
