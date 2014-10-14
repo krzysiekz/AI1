@@ -3,36 +3,31 @@ package com.ai1;
 import java.util.List;
 
 /**
- * The type Learning options.
+ * The type represents options used in learning process.
  */
 public class LearningOptions {
 
-    private final List<Double> inputValues;
-    private final double expectedOutput;
+    private final List<LearningEntry> learningData;
     private final double learningRate;
     private double epsilon;
+    private int iterationsLimit;
 
     /**
      * Instantiates a new Learning options.
      *
-     * @param inputValues the input values
-     * @param expectedOutput the expected output
+     * @param learningData the learning data
      * @param learningRate the learning rate
      * @param epsilon the epsilon
      */
-    public LearningOptions(List<Double> inputValues, double expectedOutput, double learningRate, double epsilon) {
-        this.inputValues = inputValues;
-        this.expectedOutput = expectedOutput;
+    public LearningOptions(List<LearningEntry> learningData, double learningRate, double epsilon, int iterationsLimit) {
+        this.learningData = learningData;
         this.learningRate = learningRate;
         this.epsilon = epsilon;
+        this.iterationsLimit = iterationsLimit;
     }
 
-    public List<Double> getInputValues() {
-        return inputValues;
-    }
-
-    public double getExpectedOutput() {
-        return expectedOutput;
+    public List<LearningEntry> getLearningData() {
+        return learningData;
     }
 
     public double getLearningRate() {
@@ -41,5 +36,9 @@ public class LearningOptions {
 
     public double getEpsilon() {
         return epsilon;
+    }
+
+    public int getIterationsLimit() {
+        return iterationsLimit;
     }
 }

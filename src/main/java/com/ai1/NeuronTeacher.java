@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 
 /**
- * The type Neuron teacher.
+ * The type represent class that teaches neuron.
  */
 public class NeuronTeacher {
 
@@ -21,28 +21,44 @@ public class NeuronTeacher {
      * @param options the options
      */
     public void teach(LearningOptions options) {
-        double value = neuronToTeach.activate(options.getInputValues());
         int iterations = 0;
-        while(Math.abs(value - options.getExpectedOutput()) > options.getEpsilon()) {
+        while(iterations < options.getIterationsLimit()) {
             iterations++;
-            neuronToTeach.adjustWeights(options);
-            value = neuronToTeach.activate(options.getInputValues());
-        }
+            int errorCount = teachBasedOnEachEntry(options);
 
-        displayResults(value, iterations);
+            if(errorCount == 0) {
+                break;
+            }
+        }
+        displayResults(iterations);
+    }
+
+    /**
+     * Teach based on each entry.
+     *
+     * @param options the options
+     * @return the int
+     */
+    private int teachBasedOnEachEntry(LearningOptions options) {
+        int errorCount = 0;
+        for (LearningEntry learningEntry : options.getLearningData()) {
+            double value = neuronToTeach.activate(learningEntry.getInputValues());
+
+            if(Math.abs(value - learningEntry.getExpectedOutput()) > options.getEpsilon()) {
+                errorCount++;
+            }
+            neuronToTeach.adjustWeights(learningEntry, options.getLearningRate());
+        }
+        return errorCount;
     }
 
     /**
      * Display results.
      *
-     * @param value the value
      * @param iterations the iterations
      */
-    private void displayResults(double value, int iterations) {
+    private void displayResults(int iterations) {
         Logger.getAnonymousLogger().log(Level.INFO, "Iterations: " + String.valueOf(iterations));
-        for(Double weight : neuronToTeach.getWeights()) {
-            Logger.getAnonymousLogger().log(Level.INFO, String.valueOf(weight));
-        }
-        Logger.getAnonymousLogger().log(Level.INFO, "Result: " + String.valueOf(value));
+        Logger.getAnonymousLogger().log(Level.INFO, String.valueOf(neuronToTeach.getWeights()));
     }
 }

@@ -4,44 +4,33 @@ import com.ai1.activation.ActivationFunction;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class NeuronTest {
 
-    public static final int NUMBER_OF_INPUTS = 5;
-    Neuron neuron;
-    ActivationFunction activationFunction;
+    public static final boolean BIAS = false;
+    private Neuron neuron;
+    private ActivationFunction activationFunction;
 
     @Before
     public void setUp() {
         //given
         activationFunction = mock(ActivationFunction.class);
-        neuron = new Neuron(NUMBER_OF_INPUTS, activationFunction);
+        neuron = new Neuron(activationFunction, BIAS);
     }
 
-    @Test
-    public void shouldSetNumberOfInputs() {
-        //then
-        assertEquals(NUMBER_OF_INPUTS, neuron.getNumberOfInputs());
-    }
 
     @Test
-    public void shouldReturnWeightsListWhenNumberOfInputsSet() {
+    public void shouldReturnNullWeightsBeforeActivation() {
         //then
-        assertTrue(neuron.getWeights() != null);
-    }
-
-    @Test
-    public void shouldReturnWeighsListOfProperSize() {
-        //then
-        assertEquals(NUMBER_OF_INPUTS, neuron.getWeights().size());
+        assertNull(neuron.getWeights());
     }
 
     @Test
     public void shouldSetActivationFunction() {
         //then
-        assertTrue(neuron.getActivationFunction() != null);
+        assertNotNull(neuron.getActivationFunction());
     }
 }

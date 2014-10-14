@@ -1,43 +1,110 @@
 package com.ai1;
 
 import com.ai1.activation.ActivationFunction;
-import com.ai1.activation.impl.LinearFunction;
+import com.ai1.activation.impl.BinaryStepFunction;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static junitparams.JUnitParamsRunner.$;
 import static org.junit.Assert.assertEquals;
 
+@RunWith(JUnitParamsRunner.class)
 public class NeuronTeacherTest {
-    public static final double EPSILON = 0.1;
-    public static final double LEARNING_RATE = 0.1;
-    public static final double EXPECTED_OUTPUT = 17.0;
+    public static final double EPSILON = 0.01;
+    public static final double LEARNING_RATE = 0.01;
+    public static final boolean BIAS = true;
+    public static final int ITERATIONS_LIMIT = 1000;
+
+    //given
+    private LearningOptions learningOptions;
+    private ActivationFunction activationFunction;
+    private Neuron neuron;
+    private NeuronTeacher neuronTeacher;
+
+    @Before
+    public void setUp() {
+        learningOptions = prepareLearningOptions();
+        activationFunction = new BinaryStepFunction();
+        neuron = new Neuron(activationFunction, BIAS);
+        neuronTeacher = new NeuronTeacher(neuron);
+    }
 
     @Test
     public void shouldTeachNeuron() {
-        //given
-        List<Double> inputValues = prepareInputValues();
-        ActivationFunction activationFunction = new LinearFunction();
-        Neuron neuron = new Neuron(inputValues.size(), activationFunction);
-        LearningOptions options = new LearningOptions(inputValues, EXPECTED_OUTPUT, LEARNING_RATE, EPSILON);
-        NeuronTeacher neuronTeacher = new NeuronTeacher(neuron);
         //when
-        neuronTeacher.teach(options);
+        neuronTeacher.teach(learningOptions);
         //then
-        assertEquals(EXPECTED_OUTPUT, neuron.activate(inputValues), EPSILON);
+        for(LearningEntry learningEntry : learningOptions.getLearningData()) {
+            assertEquals(learningEntry.getExpectedOutput(),
+                    neuron.activate(learningEntry.getInputValues()), EPSILON);
+        }
+    }
+
+    @Test
+    @Parameters(method = "positiveClassificationData")
+    public void shouldClassifyPointsToOneAfterLearning(Double x, Double y, Double expected) {
+        //when
+        List<Double> inputValues = new ArrayList<Double>();
+        inputValues.add(x);
+        inputValues.add(y);
+        neuronTeacher.teach(learningOptions);
+        //then
+        assertEquals(expected, neuron.activate(inputValues), EPSILON);
+    }
+
+    @Test
+    @Parameters(method = "zeroClassificationData")
+    public void shouldClassifyPointsToZeroAfterLearning(Double x, Double y, Double expected) {
+        //when
+        List<Double> inputValues = new ArrayList<Double>();
+        inputValues.add(x);
+        inputValues.add(y);
+        neuronTeacher.teach(learningOptions);
+        //then
+        assertEquals(expected, neuron.activate(inputValues), EPSILON);
     }
 
     /**
-     * Prepare input values.
+     * Prepare learning options.
      *
-     * @return the list
+     * @return the learning options
      */
-    private List<Double> prepareInputValues() {
+    private LearningOptions prepareLearningOptions() {
+        List<LearningEntry> learningEntries = new ArrayList<LearningEntry>();
+        learningEntries.add( getLearningEntry(0.0, 2.0, 1.0));
+        learningEntries.add( getLearningEntry(1.0, 1.0, 1.0));
+        learningEntries.add( getLearningEntry(1.0, 3.0, 0.0));
+        learningEntries.add( getLearningEntry(2.0, 2.0, 0.0));
+        learningEntries.add( getLearningEntry(3.0, 1.0, 0.0));
+        return new LearningOptions(learningEntries, LEARNING_RATE, EPSILON, ITERATIONS_LIMIT);
+    }
+
+    private LearningEntry getLearningEntry(Double inputOne, Double inputTwo, Double expectedResults) {
         List<Double> inputValues = new ArrayList<Double>();
-        inputValues.add(1.0);
-        inputValues.add(2.0);
-        inputValues.add(3.0);
-        return inputValues;
+        inputValues.add(inputOne);
+        inputValues.add(inputTwo);
+        return new LearningEntry(inputValues, expectedResults);
+    }
+
+    private Object[] positiveClassificationData() {
+        return $(
+                $(-1.0, -1.0, 1.0),
+                $(1.0, -1.0, 1.0)
+//                $(2.5, 0.0, 1.0)
+        );
+    }
+
+    private Object[] zeroClassificationData() {
+        return $(
+                $(2.0, 3.0, 0.0),
+                $(2.5, -0.5, 0.0),
+                $(3.0, 0.0, 0.0)
+        );
     }
 }
