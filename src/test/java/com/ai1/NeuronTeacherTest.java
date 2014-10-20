@@ -5,6 +5,7 @@ import com.ai1.activation.impl.BinaryStepFunction;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -16,10 +17,10 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnitParamsRunner.class)
 public class NeuronTeacherTest {
-    public static final double EPSILON = 0.01;
-    public static final double LEARNING_RATE = 0.01;
-    public static final boolean BIAS = true;
-    public static final int ITERATIONS_LIMIT = 1000;
+    public static final double EPSILON = 0.001;
+    public static final double LEARNING_RATE = 0.001;
+    public static final boolean BIAS = false;
+    public static final int ITERATIONS_LIMIT = 10000;
 
     //given
     private LearningOptions learningOptions;
@@ -46,6 +47,7 @@ public class NeuronTeacherTest {
         }
     }
 
+    @Ignore
     @Test
     @Parameters(method = "positiveClassificationData")
     public void shouldClassifyPointsToOneAfterLearning(Double x, Double y, Double expected) {
@@ -58,6 +60,7 @@ public class NeuronTeacherTest {
         assertEquals(expected, neuron.activate(inputValues), EPSILON);
     }
 
+    @Ignore
     @Test
     @Parameters(method = "zeroClassificationData")
     public void shouldClassifyPointsToZeroAfterLearning(Double x, Double y, Double expected) {
@@ -77,30 +80,37 @@ public class NeuronTeacherTest {
      */
     private LearningOptions prepareLearningOptions() {
         List<LearningEntry> learningEntries = new ArrayList<LearningEntry>();
-        learningEntries.add( getLearningEntry(0.0, 2.0, 1.0));
-        learningEntries.add( getLearningEntry(1.0, 1.0, 1.0));
-        learningEntries.add( getLearningEntry(1.0, 3.0, 0.0));
-        learningEntries.add( getLearningEntry(2.0, 2.0, 0.0));
-        learningEntries.add( getLearningEntry(3.0, 1.0, 0.0));
+//        learningEntries.add( getLearningEntry(1.0, 0.0, 2.0));
+//        learningEntries.add( getLearningEntry(1.0, 1.0, 1.0));
+//        learningEntries.add( getLearningEntry(0.0, 1.0, 3.0));
+//        learningEntries.add( getLearningEntry(0.0, 2.0, 2.0));
+
+        learningEntries.add( getLearningEntry(1.0, 0.0, 1.0, 1.0));
+        learningEntries.add( getLearningEntry(1.0, 1.0, 1.0, 1.0));
+
+        learningEntries.add( getLearningEntry(0.0, -1.0, 3.0, -1.0));
+        learningEntries.add( getLearningEntry(0.0, -1.0, 2.0, 0.0));
+        learningEntries.add( getLearningEntry(0.0, 0.0, 0.0, -1.0));
         return new LearningOptions(learningEntries, LEARNING_RATE, EPSILON, ITERATIONS_LIMIT);
     }
 
-    private LearningEntry getLearningEntry(Double inputOne, Double inputTwo, Double expectedResults) {
+    private LearningEntry getLearningEntry(Double expectedResults, Double...inputs) {
         List<Double> inputValues = new ArrayList<Double>();
-        inputValues.add(inputOne);
-        inputValues.add(inputTwo);
+        for(Double input : inputs) {
+            inputValues.add(input);
+        }
         return new LearningEntry(inputValues, expectedResults);
     }
 
-    private Object[] positiveClassificationData() {
+    public Object[] positiveClassificationData() {
         return $(
                 $(-1.0, -1.0, 1.0),
-                $(1.0, -1.0, 1.0)
-//                $(2.5, 0.0, 1.0)
+                $(1.0, -1.0, 1.0),
+                $(2.5, 0.0, 1.0)
         );
     }
 
-    private Object[] zeroClassificationData() {
+    public Object[] zeroClassificationData() {
         return $(
                 $(2.0, 3.0, 0.0),
                 $(2.5, -0.5, 0.0),
