@@ -17,4 +17,12 @@ public class NeuronNetworkTeacherTest {
         //then
         assertEquals(neuronNetwork, neuronNetworkTeacher.getNeuronNetwork());
     }
+
+    @Test
+    public void shouldTeachNetwork() {
+        //given
+
+        //when
+        //then
+    }
 }
