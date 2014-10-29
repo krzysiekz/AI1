@@ -17,4 +17,13 @@ public class NeuronNetwork {
     public void addLayer(NeuronLayer layer) {
         layers.add(layer);
     }
+
+
+    public List<Double> getNetworkOutput(List<Double> inputForFirstLayer) {
+        List<Double> input = inputForFirstLayer;
+        for(NeuronLayer neuronLayer : layers) {
+            input = neuronLayer.getOutput(input);
+        }
+        return input;
+    }
 }

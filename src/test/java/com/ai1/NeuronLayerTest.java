@@ -4,6 +4,7 @@ import com.ai1.activation.ActivationFunction;
 import com.ai1.activation.impl.LinearFunction;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -26,5 +27,16 @@ public class NeuronLayerTest {
         for(Neuron neuron : neurons) {
             assertTrue(neuron.getActivationFunction() instanceof LinearFunction);
         }
+    }
+
+    @Test
+    public void shouldReturnValuesWhenActivatingWithTwoNeurons() {
+        //given
+        ActivationFunction activationFunction = mock(LinearFunction.class);
+        NeuronLayer neuronLayer = new NeuronLayer(false, activationFunction, NUMBER_OF_NEURONS);
+        //when
+        List<Double> outputs = neuronLayer.getOutput(new ArrayList<Double>());
+        //then
+        assertEquals(NUMBER_OF_NEURONS, outputs.size());
     }
 }
