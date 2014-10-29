@@ -1,5 +1,8 @@
-package com.ai1;
+package com.ai1.teacher;
 
+import com.ai1.LearningEntry;
+import com.ai1.LearningOptions;
+import com.ai1.Neuron;
 import com.ai1.activation.ActivationFunction;
 import com.ai1.activation.impl.BinaryStepFunction;
 import junitparams.JUnitParamsRunner;
@@ -10,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static junitparams.JUnitParamsRunner.$;
@@ -96,9 +100,7 @@ public class NeuronTeacherTest {
 
     private LearningEntry getLearningEntry(Double expectedResults, Double...inputs) {
         List<Double> inputValues = new ArrayList<Double>();
-        for(Double input : inputs) {
-            inputValues.add(input);
-        }
+        Collections.addAll(inputValues, inputs);
         return new LearningEntry(inputValues, expectedResults);
     }
 

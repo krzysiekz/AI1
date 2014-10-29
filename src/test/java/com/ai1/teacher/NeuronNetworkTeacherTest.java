@@ -1,5 +1,6 @@
-package com.ai1;
+package com.ai1.teacher;
 
+import com.ai1.NeuronNetwork;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

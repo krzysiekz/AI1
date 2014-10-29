@@ -1,4 +1,8 @@
-package com.ai1;
+package com.ai1.teacher;
+
+import com.ai1.LearningEntry;
+import com.ai1.LearningOptions;
+import com.ai1.Neuron;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
