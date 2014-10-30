@@ -1,5 +1,6 @@
 package com.ai1.teacher;
 
+import com.ai1.LearningOptions;
 import com.ai1.NeuronNetwork;
 
 public class NeuronNetworkTeacher {
@@ -11,5 +12,9 @@ public class NeuronNetworkTeacher {
 
     public NeuronNetwork getNeuronNetwork() {
         return neuronNetwork;
+    }
+
+    public void teach(LearningOptions learningOptions) {
+
     }
 }

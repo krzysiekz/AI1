@@ -1,6 +1,7 @@
 package com.ai1.teacher;
 
 import com.ai1.LearningEntry;
+import com.ai1.LearningEntryCreator;
 import com.ai1.LearningOptions;
 import com.ai1.Neuron;
 import com.ai1.activation.ActivationFunction;
@@ -13,7 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static junitparams.JUnitParamsRunner.$;
@@ -25,7 +25,6 @@ public class NeuronTeacherTest {
     public static final double LEARNING_RATE = 0.001;
     public static final boolean BIAS = false;
     public static final int ITERATIONS_LIMIT = 10000;
-
     //given
     private LearningOptions learningOptions;
     private ActivationFunction activationFunction;
@@ -77,31 +76,21 @@ public class NeuronTeacherTest {
         assertEquals(expected, neuron.activate(inputValues), EPSILON);
     }
 
-    /**
-     * Prepare learning options.
-     *
-     * @return the learning options
-     */
     private LearningOptions prepareLearningOptions() {
+        final LearningEntryCreator learningEntryCreator = new LearningEntryCreator();
         List<LearningEntry> learningEntries = new ArrayList<LearningEntry>();
 //        learningEntries.add( getLearningEntry(1.0, 0.0, 2.0));
 //        learningEntries.add( getLearningEntry(1.0, 1.0, 1.0));
 //        learningEntries.add( getLearningEntry(0.0, 1.0, 3.0));
 //        learningEntries.add( getLearningEntry(0.0, 2.0, 2.0));
 
-        learningEntries.add( getLearningEntry(1.0, 0.0, 1.0, 1.0));
-        learningEntries.add( getLearningEntry(1.0, 1.0, 1.0, 1.0));
+        learningEntries.add(learningEntryCreator.getLearningEntry(1.0, 0.0, 1.0, 1.0));
+        learningEntries.add(learningEntryCreator.getLearningEntry(1.0, 1.0, 1.0, 1.0));
 
-        learningEntries.add( getLearningEntry(0.0, -1.0, 3.0, -1.0));
-        learningEntries.add( getLearningEntry(0.0, -1.0, 2.0, 0.0));
-        learningEntries.add( getLearningEntry(0.0, 0.0, 0.0, -1.0));
+        learningEntries.add(learningEntryCreator.getLearningEntry(0.0, -1.0, 3.0, -1.0));
+        learningEntries.add(learningEntryCreator.getLearningEntry(0.0, -1.0, 2.0, 0.0));
+        learningEntries.add(learningEntryCreator.getLearningEntry(0.0, 0.0, 0.0, -1.0));
         return new LearningOptions(learningEntries, LEARNING_RATE, EPSILON, ITERATIONS_LIMIT);
-    }
-
-    private LearningEntry getLearningEntry(Double expectedResults, Double...inputs) {
-        List<Double> inputValues = new ArrayList<Double>();
-        Collections.addAll(inputValues, inputs);
-        return new LearningEntry(inputValues, expectedResults);
     }
 
     public Object[] positiveClassificationData() {
