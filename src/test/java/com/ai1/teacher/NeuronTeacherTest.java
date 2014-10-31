@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junitparams.JUnitParamsRunner.$;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.offset;
 
 @RunWith(JUnitParamsRunner.class)
 public class NeuronTeacherTest {
@@ -45,8 +46,7 @@ public class NeuronTeacherTest {
         neuronTeacher.teach(learningOptions);
         //then
         for(LearningEntry learningEntry : learningOptions.getLearningData()) {
-            assertEquals(learningEntry.getExpectedOutput(),
-                    neuron.activate(learningEntry.getInputValues()), EPSILON);
+            assertThat(learningEntry.getExpectedOutput()).isEqualTo(neuron.activate(learningEntry.getInputValues()), offset(EPSILON));
         }
     }
 
@@ -59,8 +59,7 @@ public class NeuronTeacherTest {
         inputValues.add(x);
         inputValues.add(y);
         neuronTeacher.teach(learningOptions);
-        //then
-        assertEquals(expected, neuron.activate(inputValues), EPSILON);
+        assertThat(expected).isEqualTo(neuron.activate(inputValues), offset(EPSILON));
     }
 
     @Ignore
@@ -73,7 +72,7 @@ public class NeuronTeacherTest {
         inputValues.add(y);
         neuronTeacher.teach(learningOptions);
         //then
-        assertEquals(expected, neuron.activate(inputValues), EPSILON);
+        assertThat(expected).isEqualTo(neuron.activate(inputValues), offset(EPSILON));
     }
 
     private LearningOptions prepareLearningOptions() {

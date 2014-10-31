@@ -3,7 +3,8 @@ package com.ai1.activation.impl;
 import com.ai1.activation.ActivationFunction;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.offset;
 
 /**
  * The type Linear function test.
@@ -14,7 +15,7 @@ public class LinearFunctionTest {
         //given
         ActivationFunction linear = new LinearFunction();
         //then
-        assertEquals(5, linear.calculate(5), 0.1);
-        assertEquals(10, linear.calculate(10), 0.1);
+        assertThat(linear.calculate(5)).isEqualTo(5, offset(0.1));
+        assertThat(linear.calculate(10)).isEqualTo(10, offset(0.1));
     }
 }

@@ -7,8 +7,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 public class NeuronLayerTest {
@@ -25,7 +25,7 @@ public class NeuronLayerTest {
         //then
         assertEquals(NUMBER_OF_NEURONS, neurons.size());
         for(Neuron neuron : neurons) {
-            assertTrue(neuron.getActivationFunction() instanceof LinearFunction);
+            assertThat(neuron.getActivationFunction()).isInstanceOf(LinearFunction.class);
         }
     }
 
@@ -37,6 +37,6 @@ public class NeuronLayerTest {
         //when
         List<Double> outputs = neuronLayer.getOutput(new ArrayList<Double>());
         //then
-        assertEquals(NUMBER_OF_NEURONS, outputs.size());
+        assertThat(NUMBER_OF_NEURONS).isEqualTo(outputs.size());
     }
 }

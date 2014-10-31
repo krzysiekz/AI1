@@ -7,11 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 public class NeuronNetworkTest {
 
@@ -31,7 +28,7 @@ public class NeuronNetworkTest {
         //when
         List<NeuronLayer> layers = neuronNetwork.getLayers();
         //then
-        assertTrue(layers.isEmpty());
+        assertThat(layers.isEmpty()).isTrue();
     }
 
     @Test
@@ -39,8 +36,7 @@ public class NeuronNetworkTest {
         //when
         neuronNetwork.addLayer(firstLayer);
         //then
-        assertEquals(1, neuronNetwork.getLayers().size());
-        assertTrue(neuronNetwork.getLayers().get(0).equals(firstLayer));
+        assertThat(neuronNetwork.getLayers()).hasSize(1).contains(firstLayer);
     }
 
     @Test
@@ -49,9 +45,7 @@ public class NeuronNetworkTest {
         neuronNetwork.addLayer(firstLayer);
         neuronNetwork.addLayer(secondLayer);
         //then
-        assertEquals(2, neuronNetwork.getLayers().size());
-        assertTrue(neuronNetwork.getLayers().get(0).equals(firstLayer));
-        assertTrue(neuronNetwork.getLayers().get(1).equals(secondLayer));
+        assertThat(neuronNetwork.getLayers()).hasSize(2).contains(firstLayer, secondLayer);
     }
 
     @Test
@@ -68,7 +62,7 @@ public class NeuronNetworkTest {
         //then
         verify(firstLayer).getOutput(inputForFirstLayer);
         verify(secondLayer).getOutput(outputFromFirstLayer);
-        assertEquals(inputForFirstLayer, output);
+        assertThat(output).isEqualTo(inputForFirstLayer);
     }
 
     private List<Double> prepareDoubleList(Double...values) {

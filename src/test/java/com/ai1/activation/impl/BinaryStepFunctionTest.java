@@ -4,7 +4,8 @@ import com.ai1.activation.ActivationFunction;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.offset;
 
 /**
  * The type Binary step function test.
@@ -24,7 +25,7 @@ public class BinaryStepFunctionTest {
         //when
         Double returnValue = activationFunction.calculate(-5);
         //then
-        assertEquals(0, returnValue, DOUBLE_DELTA);
+        assertThat(returnValue).isEqualTo(0, offset(DOUBLE_DELTA));
     }
 
     @Test
@@ -32,7 +33,7 @@ public class BinaryStepFunctionTest {
         //when
         Double returnValue = activationFunction.calculate(5);
         //then
-       assertEquals(1, returnValue, DOUBLE_DELTA);
+        assertThat(returnValue).isEqualTo(1, offset(DOUBLE_DELTA));
     }
 
     @Test
@@ -40,6 +41,6 @@ public class BinaryStepFunctionTest {
         //when
         Double returnValue = activationFunction.calculate(0);
         //then
-        assertEquals(1, returnValue, 0.0001);
+        assertThat(returnValue).isEqualTo(1, offset(DOUBLE_DELTA));
     }
 }

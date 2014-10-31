@@ -4,9 +4,8 @@ import com.ai1.activation.ActivationFunction;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class NeuronTest {
 
@@ -25,12 +24,12 @@ public class NeuronTest {
     @Test
     public void shouldReturnNullWeightsBeforeActivation() {
         //then
-        assertNull(neuron.getWeights());
+        assertThat(neuron.getWeights()).isNull();
     }
 
     @Test
     public void shouldSetActivationFunction() {
         //then
-        assertNotNull(neuron.getActivationFunction());
+        assertThat(neuron.getActivationFunction()).isNotNull();
     }
 }
