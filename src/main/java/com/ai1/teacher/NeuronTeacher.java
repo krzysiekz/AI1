@@ -4,6 +4,7 @@ import com.ai1.LearningEntry;
 import com.ai1.LearningOptions;
 import com.ai1.Neuron;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,7 +52,14 @@ public class NeuronTeacher {
             if(Math.abs(value - learningEntry.getExpectedOutput()) > options.getEpsilon()) {
                 errorCount++;
             }
-            neuronToTeach.adjustWeights(learningEntry, options.getLearningRate());
+
+            List<Double> inputValues = neuronToTeach.addBiasInputIfNeeded(learningEntry.getInputValues());
+            for (Double weight : neuronToTeach.getWeights()) {
+                int index = neuronToTeach.getWeights().indexOf(weight);
+                double newWeightValue = weight + (options.getLearningRate() *
+                        (learningEntry.getExpectedOutput() - value) * inputValues.get(index));
+                neuronToTeach.getWeights().set(index, newWeightValue);
+            }
         }
         return errorCount;
     }

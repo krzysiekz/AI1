@@ -87,24 +87,7 @@ public class Neuron {
         return sum;
     }
 
-    /**
-     * Adjust weights.
-     *
-     * @param learningEntry the learning entry
-     * @param learningRate the learning rate
-     */
-    public void adjustWeights(LearningEntry learningEntry, Double learningRate) {
-        Double currentValue = activate(learningEntry.getInputValues());
-        List<Double> inputValues = addBiasInputIfNeeded(learningEntry.getInputValues());
-        for (Double weight : weights) {
-            int index = weights.indexOf(weight);
-            double newWeightValue = weight + (learningRate *
-                    (learningEntry.getExpectedOutput() - currentValue) * inputValues.get(index));
-            weights.set(index, newWeightValue);
-        }
-    }
-
-    private List<Double> addBiasInputIfNeeded(List<Double> inputValues) {
+    public List<Double> addBiasInputIfNeeded(List<Double> inputValues) {
         if(bias) {
             List<Double> modifiedInputValues = new ArrayList<Double>(inputValues);
             modifiedInputValues.add(0, BIAS_INPUT);
