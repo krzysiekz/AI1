@@ -40,4 +40,12 @@ public class BipolarStepFunctionTest {
         //then
         assertThat(returnValue).isEqualTo(1, offset(DOUBLE_DELTA));
     }
+
+    @Test
+    public void shouldCalculateDerivative() {
+        //then
+        assertThat(activationFunction.calculateDerivative(5.0)).isEqualTo(1, offset(0.0001));
+        assertThat(activationFunction.calculateDerivative(1.0)).isEqualTo(1, offset(0.0001));
+        assertThat(activationFunction.calculateDerivative(3.0)).isEqualTo(1, offset(0.0001));
+    }
 }

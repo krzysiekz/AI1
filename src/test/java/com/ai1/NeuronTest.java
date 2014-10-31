@@ -32,4 +32,12 @@ public class NeuronTest {
         //then
         assertThat(neuron.getActivationFunction()).isNotNull();
     }
+
+    @Test
+    public void shouldSetError() {
+        //when
+        neuron.serError(5.55);
+        //then
+        assertThat(neuron.getError()).isEqualTo(5.55);
+    }
 }

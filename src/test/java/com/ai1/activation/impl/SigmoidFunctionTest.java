@@ -16,4 +16,14 @@ public class SigmoidFunctionTest {
         //then
         assertThat(output).isEqualTo(0.5, offset(0.0001));
     }
+
+    @Test
+    public void shouldCalculateDerivative() {
+        //given
+        ActivationFunction activationFunction = new SigmoidFunction();
+        //when
+        Double derivative = activationFunction.calculateDerivative(0.0);
+        //then
+        assertThat(derivative).isEqualTo(0.25, offset(0.0001));
+    }
 }

@@ -15,4 +15,9 @@ public class BinaryStepFunction implements ActivationFunction {
             return (double) 1;
         }
     }
+
+    @Override
+    public Double calculateDerivative(Double inputValue) {
+        return 1.0;
+    }
 }

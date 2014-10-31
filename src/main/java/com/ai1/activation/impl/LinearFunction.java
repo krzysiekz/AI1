@@ -11,4 +11,9 @@ public class LinearFunction implements ActivationFunction {
     public Double calculate(double inputValue) {
         return inputValue;
     }
+
+    @Override
+    public Double calculateDerivative(Double inputValue) {
+        return 1.0;
+    }
 }

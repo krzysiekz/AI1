@@ -17,6 +17,7 @@ public class Neuron {
     private List<Double> weights;
     private ActivationFunction activationFunction;
     private boolean bias;
+    private Double error;
 
     public Neuron(ActivationFunction activationFunction, boolean bias) {
         this.activationFunction = activationFunction;
@@ -94,5 +95,13 @@ public class Neuron {
             return modifiedInputValues;
         }
         return inputValues;
+    }
+
+    public void serError(Double error) {
+        this.error = error;
+    }
+
+    public Double getError() {
+        return error;
     }
 }

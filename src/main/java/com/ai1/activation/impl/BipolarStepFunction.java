@@ -13,4 +13,9 @@ public class BipolarStepFunction implements com.ai1.activation.ActivationFunctio
             return (double) 1;
         }
     }
+
+    @Override
+    public Double calculateDerivative(Double inputValue) {
+        return 1.0;
+    }
 }

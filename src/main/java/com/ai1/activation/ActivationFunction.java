@@ -13,4 +13,6 @@ public interface ActivationFunction {
      * @return the double
      */
     Double calculate(double inputValue);
+
+    Double calculateDerivative(Double inputValue);
 }
