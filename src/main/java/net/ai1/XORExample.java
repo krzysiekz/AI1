@@ -11,7 +11,7 @@ public class XORExample {
 
         NeuralNetwork untrained = createUntrainedXorNeuralNetwork();
         TrainingDataGenerator xorTrainingDataGenerator = new XorTrainingDataGenerator();
-        LearningOptions options = new LearningOptions(0.1, 0.01, 0.9, 0);
+        LearningOptions options = new LearningOptions(0.01, 0.01, 0.9, 0);
         NetworkTrainer trainer = new NetworkTrainer(untrained);
         trainer.trainNetwork(xorTrainingDataGenerator, options);
 

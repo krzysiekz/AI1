@@ -24,7 +24,7 @@ public class NetworkTrainer {
             TrainingData trainingData = generator.getTrainingData();
             error = train(trainingData, learningOptions);
 
-            if(epoch % 1000 == 0) {
+            if(epoch % 1 == 0) {
                 System.out.println("Error for epoch " + epoch + ": " + error);
             }
             epoch++;
@@ -50,7 +50,7 @@ public class NetworkTrainer {
             calculateErrors(expectedOutput, output);
             adjustWeights(learningOptions, synapseNeuronDeltaMap);
 
-            output = neuralNetwork.getOutput();
+//            output = neuralNetwork.getOutput();
             error += error(output, expectedOutput);
         }
 

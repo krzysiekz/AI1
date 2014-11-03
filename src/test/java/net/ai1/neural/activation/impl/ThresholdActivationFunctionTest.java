@@ -22,13 +22,13 @@ public class ThresholdActivationFunctionTest {
     }
 
     @Test
-    public void derivativeShouldReturnZero() {
+    public void derivativeShouldReturnOne() {
         //when
         ActivationFunction activationFunction = new ThresholdActivationFunction(0.0);
         //then
-        assertThat(activationFunction.derivative(1)).isEqualTo(0, offset(DOUBLE_DELTA));
-        assertThat(activationFunction.derivative(2)).isEqualTo(0, offset(DOUBLE_DELTA));
-        assertThat(activationFunction.derivative(0)).isEqualTo(0, offset(DOUBLE_DELTA));
-        assertThat(activationFunction.derivative(-1)).isEqualTo(0, offset(DOUBLE_DELTA));
+        assertThat(activationFunction.derivative(1)).isEqualTo(1, offset(DOUBLE_DELTA));
+        assertThat(activationFunction.derivative(2)).isEqualTo(1, offset(DOUBLE_DELTA));
+        assertThat(activationFunction.derivative(0)).isEqualTo(1, offset(DOUBLE_DELTA));
+        assertThat(activationFunction.derivative(-1)).isEqualTo(1, offset(DOUBLE_DELTA));
     }
 }

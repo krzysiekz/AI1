@@ -17,6 +17,6 @@ public class ThresholdActivationFunction implements ActivationFunction, Serializ
     }
 
     public double derivative(double weightedSum) {
-        return 0;
+        return 1;
     }
 }
