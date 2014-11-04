@@ -24,6 +24,7 @@ public class LatexTableOutputGenerator {
         outputLine.append(getWeightString(outputInformation.getFinalWeights()));
         outputLine.append("&");
         outputLine.append(outputInformation.getEpsilon());
+        outputLine.append("\\\\");
         return outputLine.toString();
     }
 
