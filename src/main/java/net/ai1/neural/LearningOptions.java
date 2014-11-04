@@ -5,12 +5,15 @@ public class LearningOptions {
     private final double learningRate;
     private final double momentum;
     private final double characteristicTime;
+    private final double maxNumberOfEpochs;
 
-    public LearningOptions(double errorThreshold, double learningRate, double momentum, double characteristicTime) {
+    public LearningOptions(double errorThreshold, double learningRate, double momentum, double characteristicTime,
+                           double maxNumberOfEpochs) {
         this.errorThreshold = errorThreshold;
         this.learningRate = learningRate;
         this.momentum = momentum;
         this.characteristicTime = characteristicTime;
+        this.maxNumberOfEpochs = maxNumberOfEpochs;
     }
 
     public double getErrorThreshold() {
@@ -27,5 +30,9 @@ public class LearningOptions {
 
     public double getCharacteristicTime() {
         return characteristicTime;
+    }
+
+    public double getMaxNumberOfEpochs() {
+        return maxNumberOfEpochs;
     }
 }

@@ -29,7 +29,7 @@ public class NetworkTrainer {
             }
             epoch++;
             currentEpoch = epoch;
-        } while(error > learningOptions.getErrorThreshold());
+        } while(error > learningOptions.getErrorThreshold() && epoch <= learningOptions.getMaxNumberOfEpochs());
     }
 
     private double train(TrainingData learningEntries, LearningOptions learningOptions) {
