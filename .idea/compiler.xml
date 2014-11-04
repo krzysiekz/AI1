@@ -25,6 +25,9 @@
         <module name="ai1" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ai1" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
 
