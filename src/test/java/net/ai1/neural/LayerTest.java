@@ -14,8 +14,8 @@ import static org.mockito.Mockito.when;
 
 public class LayerTest {
 
-    Layer previousLayer;
-    Layer layer;
+    private Layer previousLayer;
+    private Layer layer;
 
 
     @Before
@@ -47,7 +47,7 @@ public class LayerTest {
     public void shouldCreateAdditionalInputWhenAddingNeuron() {
         //given
         Neuron neuron = mock(Neuron.class);
-        List<Neuron> neurons = new ArrayList<Neuron>();
+        List<Neuron> neurons = new ArrayList<>();
         neurons.add(neuron);
         //when
         when(previousLayer.getNeurons()).thenReturn(neurons);

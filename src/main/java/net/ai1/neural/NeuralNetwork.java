@@ -2,6 +2,7 @@ package net.ai1.neural;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class NeuralNetwork implements Serializable {
@@ -13,7 +14,7 @@ public class NeuralNetwork implements Serializable {
 
     public NeuralNetwork(String name) {
         this.name = name;
-        layers = new ArrayList<Layer>();
+        layers = new ArrayList<>();
     }
 
     public void addLayer(Layer layer) {
@@ -78,5 +79,17 @@ public class NeuralNetwork implements Serializable {
 
     public Layer getOutputLayer() {
         return outputLayer;
+    }
+
+    public List<Double> getWeights() {
+        List<Double> weights = new LinkedList<>();
+        for(Layer layer : layers) {
+            for(Neuron neuron : layer.getNeurons()) {
+                for(Connection connection: neuron.getInputs()) {
+                    weights.add(connection.getWeight());
+                }
+            }
+        }
+        return weights;
     }
 }

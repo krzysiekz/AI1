@@ -9,7 +9,7 @@ import static org.assertj.core.data.Offset.offset;
 
 public class LinearActivationFunctionTest {
 
-    ActivationFunction linear;
+    private ActivationFunction linear;
 
     @Before
     public void setUp() {

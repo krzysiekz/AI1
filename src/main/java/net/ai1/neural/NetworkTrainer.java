@@ -2,10 +2,15 @@ package net.ai1.neural;
 
 import net.ai1.neural.generator.TrainingData;
 import net.ai1.neural.generator.TrainingDataGenerator;
+import net.ai1.neural.output.OutputFileGenerator;
+import net.ai1.neural.output.OutputInformation;
+import net.ai1.neural.output.OutputInformationToLatexStringConverter;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class NetworkTrainer {
 
@@ -17,24 +22,33 @@ public class NetworkTrainer {
 
     }
 
-    public void trainNetwork(TrainingDataGenerator generator, LearningOptions learningOptions) {
+    public void trainNetwork(TrainingDataGenerator generator, LearningOptions learningOptions, OutputFileGenerator outputFileGenerator) {
         double error;
+        OutputInformation outputInformation = new OutputInformation();
+        outputInformation.setInitialWeights(neuralNetwork.getWeights());
+        outputInformation.setEpsilon(learningOptions.getErrorThreshold());
+        outputInformation.setLearningRate(learningOptions.getLearningRate());
+
         int epoch = 1;
         do {
             TrainingData trainingData = generator.getTrainingData();
             error = train(trainingData, learningOptions);
 
             if(epoch % 1 == 0) {
-                System.out.println("Error for epoch " + epoch + ": " + error);
+                Logger.getAnonymousLogger().info(MessageFormat.format("Error for epoch {0}: {1}", epoch, error));
             }
             epoch++;
             currentEpoch = epoch;
         } while(error > learningOptions.getErrorThreshold() && epoch <= learningOptions.getMaxNumberOfEpochs());
+
+        outputInformation.setNumberOfEpochs(epoch);
+        outputInformation.setFinalWeights(neuralNetwork.getWeights());
+        outputFileGenerator.generateOutput(outputInformation, new OutputInformationToLatexStringConverter());
     }
 
     private double train(TrainingData learningEntries, LearningOptions learningOptions) {
         double error = 0;
-        Map<Connection, Double> synapseNeuronDeltaMap = new HashMap<Connection, Double>();
+        Map<Connection, Double> synapseNeuronDeltaMap = new HashMap<>();
 
         double[][] inputs = learningEntries.getInputs();
         double[][] expectedOutputs = learningEntries.getOutputs();

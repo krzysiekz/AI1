@@ -4,6 +4,7 @@ import net.ai1.neural.*;
 import net.ai1.neural.activation.impl.ThresholdActivationFunction;
 import net.ai1.neural.generator.TrainingData;
 import net.ai1.neural.generator.TrainingDataGenerator;
+import net.ai1.neural.output.OutputFileGenerator;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -27,7 +28,7 @@ public class NetworkTrainerIntegrationTests {
         when(trainingDataGenerator.getTrainingData()).thenReturn(trainingData);
         when(trainingData.getInputs()).thenReturn(inputs);
         when(trainingData.getOutputs()).thenReturn(outputs);
-        networkTrainer.trainNetwork(trainingDataGenerator, new LearningOptions(0.01, 0.1, 0.8, 0, 100));
+        networkTrainer.trainNetwork(trainingDataGenerator, new LearningOptions(0.001, 0.0001, 0.8, 0, 100000), new OutputFileGenerator());
         //then
         for (int i = 0; i < inputs.length; i++) {
             singleNeuron.setInputs(inputs[i]);
@@ -62,7 +63,7 @@ public class NetworkTrainerIntegrationTests {
         when(trainingDataGenerator.getTrainingData()).thenReturn(trainingData);
         when(trainingData.getInputs()).thenReturn(inputs);
         when(trainingData.getOutputs()).thenReturn(outputs);
-        networkTrainer.trainNetwork(trainingDataGenerator, new LearningOptions(0.01, 0.1, 0.8, 0, 100));
+        networkTrainer.trainNetwork(trainingDataGenerator, new LearningOptions(0.01, 0.1, 0.8, 0, 100), new OutputFileGenerator());
         //then
         for (int i = 0; i < inputs.length; i++) {
             singleNeuron.setInputs(inputs[i]);
@@ -83,7 +84,7 @@ public class NetworkTrainerIntegrationTests {
         when(trainingDataGenerator.getTrainingData()).thenReturn(trainingData);
         when(trainingData.getInputs()).thenReturn(inputs);
         when(trainingData.getOutputs()).thenReturn(outputs);
-        networkTrainer.trainNetwork(trainingDataGenerator, new LearningOptions(0.01, 0.1, 0.8, 0, 100));
+        networkTrainer.trainNetwork(trainingDataGenerator, new LearningOptions(0.001, 0.001, 0.8, 0, 10000), new OutputFileGenerator());
         //then
         for (int i = 0; i < inputs.length; i++) {
             singleNeuron.setInputs(inputs[i]);

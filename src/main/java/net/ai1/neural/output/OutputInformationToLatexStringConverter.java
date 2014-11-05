@@ -1,19 +1,9 @@
 package net.ai1.neural.output;
 
-import java.io.*;
 import java.util.List;
 
-public class LatexTableOutputGenerator {
-
-    public void generateOutput(OutputInformation outputInformation) throws FileNotFoundException {
-        try (PrintWriter printWriter = new PrintWriter("output.txt")) {
-            String line = prepareLine(outputInformation);
-            printWriter.println(line);
-        }
-
-    }
-
-    private String prepareLine(OutputInformation outputInformation) {
+public class OutputInformationToLatexStringConverter {
+    public String convert(OutputInformation outputInformation) {
         StringBuilder outputLine = new StringBuilder();
         outputLine.append(getWeightString(outputInformation.getInitialWeights()));
         outputLine.append("&");
@@ -31,7 +21,7 @@ public class LatexTableOutputGenerator {
     private String getWeightString(List<Double> weights) {
         StringBuilder weightsString = new StringBuilder();
         for(Double weight : weights) {
-            weightsString.append(weight);
+            weightsString.append(String.format("%.3f", weight).replace(",", "."));
             if(weights.indexOf(weight) != weights.size()-1) {
                 weightsString.append(",");
             }

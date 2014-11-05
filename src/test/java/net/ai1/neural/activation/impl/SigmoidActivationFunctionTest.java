@@ -9,7 +9,7 @@ import static org.assertj.core.data.Offset.offset;
 
 public class SigmoidActivationFunctionTest {
 
-    ActivationFunction activationFunction;
+    private ActivationFunction activationFunction;
 
     @Before
     public void setUp() {

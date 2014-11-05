@@ -12,7 +12,7 @@ public class Layer implements Serializable {
     private Neuron bias;
 
     private Layer() {
-        neurons = new ArrayList<Neuron>();
+        neurons = new ArrayList<>();
         previousLayer = null;
     }
 

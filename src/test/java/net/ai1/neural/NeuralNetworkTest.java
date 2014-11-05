@@ -10,7 +10,7 @@ import static org.mockito.Mockito.verify;
 
 public class NeuralNetworkTest {
 
-    NeuralNetwork neuralNetwork;
+    private NeuralNetwork neuralNetwork;
 
     @Before
     public void setUp() {

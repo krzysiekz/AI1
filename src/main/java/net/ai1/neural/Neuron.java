@@ -16,7 +16,7 @@ public class Neuron implements Serializable {
     private double error;
 
     public Neuron(ActivationFunction activationFunction) {
-        inputs = new ArrayList<Connection>();
+        inputs = new ArrayList<>();
         this.activationFunction = activationFunction;
         error = 0;
     }

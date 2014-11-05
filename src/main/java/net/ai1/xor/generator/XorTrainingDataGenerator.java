@@ -9,7 +9,7 @@ public class XorTrainingDataGenerator implements TrainingDataGenerator {
 
     private final double[][] inputs = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
     private final double[][] outputs = {{0}, {1}, {1}, {0}};
-    int[] inputIndices = {0, 1, 2, 3};
+    private int[] inputIndices = {0, 1, 2, 3};
 
     public TrainingData getTrainingData() {
         double[][] randomizedInputs = new double[4][2];

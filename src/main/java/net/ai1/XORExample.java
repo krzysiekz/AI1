@@ -3,6 +3,7 @@ package net.ai1;
 import net.ai1.neural.*;
 import net.ai1.neural.activation.impl.SigmoidActivationFunction;
 import net.ai1.neural.generator.TrainingDataGenerator;
+import net.ai1.neural.output.OutputFileGenerator;
 import net.ai1.xor.generator.XorTrainingDataGenerator;
 
 public class XORExample {
@@ -11,9 +12,10 @@ public class XORExample {
 
         NeuralNetwork untrained = createUntrainedXorNeuralNetwork();
         TrainingDataGenerator xorTrainingDataGenerator = new XorTrainingDataGenerator();
-        LearningOptions options = new LearningOptions(0.01, 0.01, 0.9, 0, 100);
+        LearningOptions options = new LearningOptions(0.01, 0.01, 0.9, 0, 1000000);
         NetworkTrainer trainer = new NetworkTrainer(untrained);
-        trainer.trainNetwork(xorTrainingDataGenerator, options);
+        OutputFileGenerator outputFileGenerator = new OutputFileGenerator();
+        trainer.trainNetwork(xorTrainingDataGenerator, options, outputFileGenerator);
 
         System.out.println("Testing trained XOR neural network");
 
