@@ -12,7 +12,7 @@ public class XORExample {
 
         NeuralNetwork untrained = createUntrainedXorNeuralNetwork();
         TrainingDataGenerator xorTrainingDataGenerator = new XorTrainingDataGenerator();
-        LearningOptions options = new LearningOptions(0.01, 0.01, 0.9, 0, 1000000);
+        LearningOptions options = new LearningOptions(0.1, 0.01, 0.9, 0, 10000000);
         NetworkTrainer trainer = new NetworkTrainer(untrained);
         OutputFileGenerator outputFileGenerator = new OutputFileGenerator();
         trainer.trainNetwork(xorTrainingDataGenerator, options, outputFileGenerator);
@@ -34,15 +34,13 @@ public class XORExample {
     }
 
     private static NeuralNetwork createUntrainedXorNeuralNetwork() {
-        NeuralNetwork xorNeuralNetwork = new NeuralNetwork("Trained XOR Network");
-
+        NeuralNetwork xorNeuralNetwork = new NeuralNetwork("XOR Network");
         Neuron inputBias = new Neuron(new SigmoidActivationFunction());
         inputBias.setOutput(1);
         Layer inputLayer = new Layer(null, inputBias);
 
         Neuron a = new Neuron(new SigmoidActivationFunction());
         a.setOutput(0);
-
         Neuron b = new Neuron(new SigmoidActivationFunction());
         b.setOutput(0);
 

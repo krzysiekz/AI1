@@ -16,6 +16,7 @@ public class NetworkTrainer {
 
     private final NeuralNetwork neuralNetwork;
     private double currentEpoch;
+    Map<Connection, Double> synapseNeuronDeltaMap = new HashMap<>();
 
     public NetworkTrainer(NeuralNetwork neuralNetwork) {
         this.neuralNetwork = neuralNetwork;
@@ -29,12 +30,13 @@ public class NetworkTrainer {
         outputInformation.setEpsilon(learningOptions.getErrorThreshold());
         outputInformation.setLearningRate(learningOptions.getLearningRate());
 
+        TrainingData trainingData = generator.getTrainingData();
         int epoch = 1;
         do {
-            TrainingData trainingData = generator.getTrainingData();
+
             error = train(trainingData, learningOptions);
 
-            if(epoch % 1 == 0) {
+            if(epoch % 1000 == 0) {
                 Logger.getAnonymousLogger().info(MessageFormat.format("Error for epoch {0}: {1}", epoch, error));
             }
             epoch++;
@@ -48,7 +50,7 @@ public class NetworkTrainer {
 
     private double train(TrainingData learningEntries, LearningOptions learningOptions) {
         double error = 0;
-        Map<Connection, Double> synapseNeuronDeltaMap = new HashMap<>();
+
 
         double[][] inputs = learningEntries.getInputs();
         double[][] expectedOutputs = learningEntries.getOutputs();
@@ -62,7 +64,7 @@ public class NetworkTrainer {
             double[] output = neuralNetwork.getOutput();
 
             calculateErrors(expectedOutput, output);
-            adjustWeights(learningOptions, synapseNeuronDeltaMap);
+            adjustWeights(learningOptions);
 
 //            output = neuralNetwork.getOutput();
             error += error(output, expectedOutput);
@@ -71,14 +73,14 @@ public class NetworkTrainer {
         return error;
     }
 
-    private void adjustWeights(LearningOptions learningOptions, Map<Connection, Double> synapseNeuronDeltaMap) {
+    private void adjustWeights(LearningOptions learningOptions) {
         List<Layer> layers = neuralNetwork.getLayers();
         for(int j = layers.size() - 1; j > 0; j--) {
-            adjustWeightsOnLayer(learningOptions, synapseNeuronDeltaMap, layers.get(j));
+            adjustWeightsOnLayer(learningOptions, layers.get(j));
         }
     }
 
-    private void adjustWeightsOnLayer(LearningOptions learningOptions, Map<Connection, Double> synapseNeuronDeltaMap, Layer layer) {
+    private void adjustWeightsOnLayer(LearningOptions learningOptions, Layer layer) {
         for(Neuron neuron : layer.getNeurons()) {
             adjustWeightsOnNeuron(learningOptions, synapseNeuronDeltaMap, neuron);
         }

@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.offset;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class NetworkTrainerIntegrationTests {
+public class NetworkTrainerIntegrationTestsEx1 {
 
     @Test
     public void shouldTeachNeuronForExercise1() {
@@ -109,13 +109,6 @@ public class NetworkTrainerIntegrationTests {
         return neuralNetwork;
     }
 
-    private static Layer getOutputLayer(Layer inputLayer) {
-        Layer outputLayer = new Layer(inputLayer);
-        Neuron neuron = new Neuron(new ThresholdActivationFunction(0));
-        outputLayer.addNeuron(neuron);
-        return outputLayer;
-    }
-
     private static NeuralNetwork createSingleNeuron(int numberOfInputs) {
         NeuralNetwork neuralNetwork = new NeuralNetwork("Single Neuron");
         Layer inputLayer = new Layer(null);
@@ -129,5 +122,12 @@ public class NetworkTrainerIntegrationTests {
         neuralNetwork.addLayer(outputLayer);
 
         return neuralNetwork;
+    }
+
+    private static Layer getOutputLayer(Layer inputLayer) {
+        Layer outputLayer = new Layer(inputLayer);
+        Neuron neuron = new Neuron(new ThresholdActivationFunction(0));
+        outputLayer.addNeuron(neuron);
+        return outputLayer;
     }
 }
