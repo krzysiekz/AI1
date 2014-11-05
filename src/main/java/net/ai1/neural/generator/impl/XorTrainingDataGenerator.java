@@ -1,4 +1,4 @@
-package net.ai1.xor.generator;
+package net.ai1.neural.generator.impl;
 
 import net.ai1.neural.generator.TrainingData;
 import net.ai1.neural.generator.TrainingDataGenerator;

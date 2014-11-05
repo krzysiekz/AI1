@@ -4,7 +4,7 @@ import net.ai1.neural.*;
 import net.ai1.neural.activation.impl.SigmoidActivationFunction;
 import net.ai1.neural.generator.TrainingDataGenerator;
 import net.ai1.neural.output.OutputFileGenerator;
-import net.ai1.xor.generator.XorTrainingDataGenerator;
+import net.ai1.neural.generator.impl.XorTrainingDataGenerator;
 
 public class XORExample {
 
