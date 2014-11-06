@@ -18,18 +18,21 @@ public class NetworkTrainerIntegrationTestsEx2 {
     public void shouldTeachNeuronNetworkToRecognizeDigits() {
         //given
         TrainingDataGenerator trainingDataGenerator = new DigitsDataGenerator();
-        NeuralNetwork neuronNetwork = createNeuronNetwork(trainingDataGenerator.
-                getTrainingData().getInputs()[0].length,
+        double[][] inputs = trainingDataGenerator.getTrainingData().getInputs();
+        NeuralNetwork neuronNetwork = createNeuronNetwork(inputs[0].length,
                 trainingDataGenerator.getTrainingData().getOutputs()[0].length);
         NetworkTrainer networkTrainer = new NetworkTrainer(neuronNetwork);
         //when
-        networkTrainer.trainNetwork(trainingDataGenerator, new LearningOptions(0.001, 0.001, 0.8, 0, 10000000), new OutputFileGenerator());
+        networkTrainer.trainNetwork(trainingDataGenerator, new LearningOptions(0.0001, 0.001, 0.8, 0, 10000000)
+                , new OutputFileGenerator());
         //then
-        for (int i = 0; i < trainingDataGenerator.getTrainingData().getInputs().length; i++) {
-            neuronNetwork.setInputs(trainingDataGenerator.getTrainingData().getInputs()[i]);
+        double[][] outputs = trainingDataGenerator.getTrainingData().getOutputs();
+        for (int i = 0; i < inputs.length; i++) {
+            neuronNetwork.setInputs(inputs[i]);
             double[] processOutput = neuronNetwork.getOutput();
             for (int j = 0; j < processOutput.length; j++) {
-                assertThat(processOutput[j]).isEqualTo(trainingDataGenerator.getTrainingData().getOutputs()[i][j], offset(0.001));
+                assertThat(processOutput[j]).isEqualTo(
+                        Double.valueOf(String.format("%.2f", outputs[i][j]).replace(",", ".")), offset(0.01));
             }
         }
     }

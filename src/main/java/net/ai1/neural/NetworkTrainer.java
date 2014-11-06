@@ -7,6 +7,7 @@ import net.ai1.neural.output.OutputInformation;
 import net.ai1.neural.output.OutputInformationToLatexStringConverter;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,17 +47,30 @@ public class NetworkTrainer {
         outputInformation.setNumberOfEpochs(epoch);
         outputInformation.setFinalWeights(neuralNetwork.getWeights());
         outputFileGenerator.generateOutput(outputInformation, new OutputInformationToLatexStringConverter());
+        displayResults(generator);
+    }
+
+    void displayResults(TrainingDataGenerator generator) {
+        Logger.getAnonymousLogger().info(MessageFormat.format("Results for network: {0}", neuralNetwork.getName()));
+        double[][] inputs = generator.getTrainingData().getInputs();
+        for (int i = 0; i < inputs.length; i++) {
+            displaySingleResult(inputs[i]);
+        }
+    }
+
+    private void displaySingleResult(double[] input) {
+        neuralNetwork.setInputs(input);
+        double[] processOutput = neuralNetwork.getOutput();
+        Logger.getAnonymousLogger().info(MessageFormat.format("Input: {0}, Output: {1}",
+                Arrays.toString(input), Arrays.toString(processOutput)));
     }
 
     private double train(TrainingData learningEntries, LearningOptions learningOptions) {
         double error = 0;
-
-
         double[][] inputs = learningEntries.getInputs();
         double[][] expectedOutputs = learningEntries.getOutputs();
 
         for (int i = 0; i < inputs.length; i++) {
-
             double[] input = inputs[i];
             double[] expectedOutput = expectedOutputs[i];
 
@@ -65,8 +79,6 @@ public class NetworkTrainer {
 
             calculateErrors(expectedOutput, output);
             adjustWeights(learningOptions);
-
-//            output = neuralNetwork.getOutput();
             error += error(output, expectedOutput);
         }
 
