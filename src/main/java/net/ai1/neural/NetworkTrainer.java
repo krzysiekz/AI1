@@ -37,7 +37,7 @@ public class NetworkTrainer {
             error = train(trainingData, learningOptions);
 
             if(epoch % 1000 == 0) {
-                Logger.getAnonymousLogger().info(MessageFormat.format("Error for epoch {0}: {1}", epoch, error));
+                Logger.getAnonymousLogger().info(MessageFormat.format("Error for epoch {0}: {1,number,#.#######}", epoch, error));
             }
             epoch++;
             currentEpoch = epoch;

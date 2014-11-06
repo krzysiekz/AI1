@@ -10,6 +10,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.offset;
 
 public class NetworkTrainerIntegrationTestsEx2 {
     @Ignore
@@ -22,11 +23,14 @@ public class NetworkTrainerIntegrationTestsEx2 {
                 trainingDataGenerator.getTrainingData().getOutputs()[0].length);
         NetworkTrainer networkTrainer = new NetworkTrainer(neuronNetwork);
         //when
-        networkTrainer.trainNetwork(trainingDataGenerator, new LearningOptions(0.001, 0.0001, 0.8, 0, 10000000), new OutputFileGenerator());
+        networkTrainer.trainNetwork(trainingDataGenerator, new LearningOptions(0.001, 0.001, 0.8, 0, 10000000), new OutputFileGenerator());
         //then
         for (int i = 0; i < trainingDataGenerator.getTrainingData().getInputs().length; i++) {
             neuronNetwork.setInputs(trainingDataGenerator.getTrainingData().getInputs()[i]);
-            assertThat(neuronNetwork.getOutput()).isEqualTo(trainingDataGenerator.getTrainingData().getOutputs()[i]);
+            double[] processOutput = neuronNetwork.getOutput();
+            for (int j = 0; j < processOutput.length; j++) {
+                assertThat(processOutput[j]).isEqualTo(trainingDataGenerator.getTrainingData().getOutputs()[i][j], offset(0.001));
+            }
         }
     }
 
