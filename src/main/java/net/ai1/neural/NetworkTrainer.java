@@ -1,5 +1,6 @@
 package net.ai1.neural;
 
+import net.ai1.neural.error.ErrorCalculator;
 import net.ai1.neural.generator.TrainingData;
 import net.ai1.neural.generator.TrainingDataGenerator;
 import net.ai1.neural.output.OutputFileGenerator;
@@ -16,12 +17,13 @@ import java.util.logging.Logger;
 public class NetworkTrainer {
 
     private final NeuralNetwork neuralNetwork;
-    private double currentEpoch;
-    Map<Connection, Double> synapseNeuronDeltaMap = new HashMap<>();
+    private final Map<Connection, Double> synapseNeuronDeltaMap = new HashMap<>();
+    private final ErrorCalculator errorCalculator;
+    private int currentEpoch;
 
-    public NetworkTrainer(NeuralNetwork neuralNetwork) {
+    public NetworkTrainer(NeuralNetwork neuralNetwork, ErrorCalculator errorCalculator) {
         this.neuralNetwork = neuralNetwork;
-
+        this.errorCalculator = errorCalculator;
     }
 
     public void trainNetwork(TrainingDataGenerator generator, LearningOptions learningOptions, OutputFileGenerator outputFileGenerator) {
@@ -32,19 +34,16 @@ public class NetworkTrainer {
         outputInformation.setLearningRate(learningOptions.getLearningRate());
 
         TrainingData trainingData = generator.getTrainingData();
-        int epoch = 1;
+        currentEpoch = 1;
         do {
-
             error = train(trainingData, learningOptions);
-
-            if(epoch % 1000 == 0) {
-                Logger.getAnonymousLogger().info(MessageFormat.format("Error for epoch {0}: {1,number,#.#######}", epoch, error));
+            if(currentEpoch % 1000 == 0) {
+                Logger.getAnonymousLogger().info(MessageFormat.format("Error for epoch {0}: {1,number,#.#######}", currentEpoch, error));
             }
-            epoch++;
-            currentEpoch = epoch;
-        } while(error > learningOptions.getErrorThreshold() && epoch <= learningOptions.getMaxNumberOfEpochs());
+            currentEpoch++;
+        } while(error > learningOptions.getErrorThreshold() && currentEpoch <= learningOptions.getMaxNumberOfEpochs());
 
-        outputInformation.setNumberOfEpochs(epoch);
+        outputInformation.setNumberOfEpochs(currentEpoch);
         outputInformation.setFinalWeights(neuralNetwork.getWeights());
         outputFileGenerator.generateOutput(outputInformation, new OutputInformationToLatexStringConverter());
         displayResults(generator);
@@ -53,8 +52,8 @@ public class NetworkTrainer {
     void displayResults(TrainingDataGenerator generator) {
         Logger.getAnonymousLogger().info(MessageFormat.format("Results for network: {0}", neuralNetwork.getName()));
         double[][] inputs = generator.getTrainingData().getInputs();
-        for (int i = 0; i < inputs.length; i++) {
-            displaySingleResult(inputs[i]);
+        for (double[] input : inputs) {
+            displaySingleResult(input);
         }
     }
 
@@ -71,17 +70,13 @@ public class NetworkTrainer {
         double[][] expectedOutputs = learningEntries.getOutputs();
 
         for (int i = 0; i < inputs.length; i++) {
-            double[] input = inputs[i];
-            double[] expectedOutput = expectedOutputs[i];
-
-            neuralNetwork.setInputs(input);
+            neuralNetwork.setInputs(inputs[i]);
             double[] output = neuralNetwork.getOutput();
 
-            calculateErrors(expectedOutput, output);
+            calculateErrors(expectedOutputs[i], output);
             adjustWeights(learningOptions);
-            error += error(output, expectedOutput);
+            error += errorCalculator.calculate(output, expectedOutputs[i]);
         }
-
         return error;
     }
 
@@ -115,7 +110,7 @@ public class NetworkTrainer {
 
     private double getNewLearningRate(LearningOptions learningOptions) {
         return learningOptions.getCharacteristicTime() > 0 ?
-                learningOptions.getLearningRate() / (1 + (currentEpoch / learningOptions.getCharacteristicTime()))
+                learningOptions.getLearningRate() / (1 + (Double.valueOf(currentEpoch) / learningOptions.getCharacteristicTime()))
                 : learningOptions.getLearningRate();
     }
 
@@ -165,17 +160,6 @@ public class NetworkTrainer {
             l++;
         }
         return sum;
-    }
-
-    private double error(double[] actual, double[] expected) {
-        if (actual.length != expected.length) {
-            throw new IllegalArgumentException("The lengths of the actual and expected value arrays must be equal");
-        }
-        double sum = 0;
-        for (int i = 0; i < expected.length; i++) {
-            sum += Math.pow(expected[i] - actual[i], 2);
-        }
-        return sum / 2;
     }
 
     public NeuralNetwork getNeuralNetwork() {

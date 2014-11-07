@@ -5,7 +5,7 @@ import net.ai1.neural.generator.TrainingDataGenerator;
 
 public class DigitsDataGenerator implements TrainingDataGenerator {
 
-    private double[][] inputs = {{0,1,1,0,1,0,0,1,1,0,0,1,1,0,0,1,0,1,1,0}
+    private final double[][] inputs = {{0,1,1,0,1,0,0,1,1,0,0,1,1,0,0,1,0,1,1,0}
             , {0,0,0,1,0,0,1,1,0,1,0,1,0,0,0,1,0,0,0,1}
             , {0,1,1,0,1,0,0,1,0,0,1,0,0,1,0,0,1,1,1,1}
             , {0,1,1,0,1,0,0,1,0,0,1,0,1,0,0,1,0,1,1,0}
@@ -17,7 +17,7 @@ public class DigitsDataGenerator implements TrainingDataGenerator {
             , {0,1,1,0,1,0,0,1,0,1,1,1,0,0,0,1,0,1,1,0}
     };
 
-    private double[][] outputs = {{1,0,0,0,0,0,0,0,0,0}
+    private final double[][] outputs = {{1,0,0,0,0,0,0,0,0,0}
             , {0,1,0,0,0,0,0,0,0,0}
             , {0,0,1,0,0,0,0,0,0,0}
             , {0,0,0,1,0,0,0,0,0,0}

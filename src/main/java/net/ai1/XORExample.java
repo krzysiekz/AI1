@@ -2,6 +2,7 @@ package net.ai1;
 
 import net.ai1.neural.*;
 import net.ai1.neural.activation.impl.SigmoidActivationFunction;
+import net.ai1.neural.error.impl.SquareErrorCalculator;
 import net.ai1.neural.generator.TrainingDataGenerator;
 import net.ai1.neural.output.OutputFileGenerator;
 import net.ai1.neural.generator.impl.XorTrainingDataGenerator;
@@ -12,25 +13,10 @@ public class XORExample {
 
         NeuralNetwork untrained = createUntrainedXorNeuralNetwork();
         TrainingDataGenerator xorTrainingDataGenerator = new XorTrainingDataGenerator();
-        LearningOptions options = new LearningOptions(0.1, 0.01, 0.9, 0, 10000000);
-        NetworkTrainer trainer = new NetworkTrainer(untrained);
+        LearningOptions options = new LearningOptions(0.1, 0.001, 0.9, 0, 10000000);
+        NetworkTrainer trainer = new NetworkTrainer(untrained, new SquareErrorCalculator());
         OutputFileGenerator outputFileGenerator = new OutputFileGenerator();
         trainer.trainNetwork(xorTrainingDataGenerator, options, outputFileGenerator);
-
-        System.out.println("Testing trained XOR neural network");
-
-        untrained.setInputs(new double[]{0, 0});
-        System.out.println("0 XOR 0: " + (untrained.getOutput()[0]));
-
-        untrained.setInputs(new double[]{0, 1});
-        System.out.println("0 XOR 1: " + (untrained.getOutput()[0]));
-
-        untrained.setInputs(new double[]{1, 0});
-        System.out.println("1 XOR 0: " + (untrained.getOutput()[0]));
-
-        untrained.setInputs(new double[]{1, 1});
-        System.out.println("1 XOR 1: " + (untrained.getOutput()[0]) + "\n");
-
     }
 
     private static NeuralNetwork createUntrainedXorNeuralNetwork() {
