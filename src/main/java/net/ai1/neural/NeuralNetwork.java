@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The Neural network.
+ */
 public class NeuralNetwork implements Serializable {
 
     private final String name;
@@ -12,11 +15,21 @@ public class NeuralNetwork implements Serializable {
     private Layer inputLayer;
     private Layer outputLayer;
 
+    /**
+     * Instantiates a new Neural network.
+     *
+     * @param name the name
+     */
     public NeuralNetwork(String name) {
         this.name = name;
         layers = new ArrayList<>();
     }
 
+    /**
+     * Adds layer.
+     *
+     * @param layer the layer
+     */
     public void addLayer(Layer layer) {
         layers.add(layer);
 
@@ -33,6 +46,11 @@ public class NeuralNetwork implements Serializable {
         outputLayer = layers.get(layers.size() - 1);
     }
 
+    /**
+     * Sets inputs.
+     *
+     * @param inputs the inputs
+     */
     public void setInputs(double[] inputs) {
         if(inputLayer != null) {
             int biasCount = inputLayer.hasBias() ? 1 : 0;
@@ -47,6 +65,11 @@ public class NeuralNetwork implements Serializable {
         }
     }
 
+    /**
+     * Get output.
+     *
+     * @return the double [ ]
+     */
     public double[] getOutput() {
 
         double[] outputs = new double[outputLayer.getNeurons().size()];
@@ -65,22 +88,47 @@ public class NeuralNetwork implements Serializable {
         return outputs;
     }
 
+    /**
+     * Gets layers.
+     *
+     * @return the layers
+     */
     public List<Layer> getLayers() {
         return layers;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets input layer.
+     *
+     * @return the input layer
+     */
     public Layer getInputLayer() {
         return inputLayer;
     }
 
+    /**
+     * Gets output layer.
+     *
+     * @return the output layer
+     */
     public Layer getOutputLayer() {
         return outputLayer;
     }
 
+    /**
+     * Gets weights.
+     *
+     * @return the weights
+     */
     public List<Double> getWeights() {
         List<Double> weights = new LinkedList<>();
         for(Layer layer : layers) {

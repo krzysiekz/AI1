@@ -2,7 +2,16 @@ package net.ai1.neural.output;
 
 import java.util.List;
 
+/**
+ * The class converts Output information to latex string.
+ */
 public class OutputInformationToLatexStringConverter {
+    /**
+     * Converts string.
+     *
+     * @param outputInformation the output information
+     * @return the string
+     */
     public String convert(OutputInformation outputInformation) {
         StringBuilder outputLine = new StringBuilder();
         outputLine.append(getWeightString(outputInformation.getInitialWeights()));

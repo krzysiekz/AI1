@@ -5,12 +5,20 @@ import net.ai1.neural.generator.TrainingDataGenerator;
 
 import java.util.Random;
 
+/**
+ * The Xor training data generator.
+ */
 public class XorTrainingDataGenerator implements TrainingDataGenerator {
 
     private final double[][] inputs = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
     private final double[][] outputs = {{0}, {1}, {1}, {0}};
     private int[] inputIndices = {0, 1, 2, 3};
 
+    /**
+     * Gets training data.
+     *
+     * @return the training data
+     */
     public TrainingData getTrainingData() {
         double[][] randomizedInputs = new double[4][2];
         double[][] randomizedOutputs = new double[4][1];
@@ -21,22 +29,17 @@ public class XorTrainingDataGenerator implements TrainingDataGenerator {
             randomizedInputs[i] = inputs[inputIndices[i]];
             randomizedOutputs[i] = outputs[inputIndices[i]];
         }
-
         return new TrainingData(randomizedInputs, randomizedOutputs);
     }
 
     private int[] shuffle(int[] array) {
-
         Random random = new Random();
         for(int i = array.length - 1; i > 0; i--) {
-
             int index = random.nextInt(i + 1);
-
             int temp = array[i];
             array[i] = array[index];
             array[index] = temp;
         }
-
         return array;
     }
 }

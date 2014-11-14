@@ -29,7 +29,7 @@ public class NetworkTrainerIntegrationTestsEx1 {
         when(trainingDataGenerator.getTrainingData()).thenReturn(trainingData);
         when(trainingData.getInputs()).thenReturn(inputs);
         when(trainingData.getOutputs()).thenReturn(outputs);
-        networkTrainer.trainNetwork(trainingDataGenerator, new LearningOptions(0.0001, 0.00001, 0.8, 0, 1000000), new OutputFileGenerator());
+        networkTrainer.trainNetwork(trainingDataGenerator, new LearningOptions(0.01, 0.001, 0.8, 0, 1000000), new OutputFileGenerator());
         //then
         for (int i = 0; i < inputs.length; i++) {
             singleNeuron.setInputs(inputs[i]);

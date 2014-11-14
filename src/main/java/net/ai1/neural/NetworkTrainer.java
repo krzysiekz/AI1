@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * The Neural Network trainer.
+ */
 public class NetworkTrainer {
 
     private final NeuralNetwork neuralNetwork;
@@ -21,11 +24,24 @@ public class NetworkTrainer {
     private final ErrorCalculator errorCalculator;
     private int currentEpoch;
 
+    /**
+     * Instantiates a new Network trainer.
+     *
+     * @param neuralNetwork the neural network
+     * @param errorCalculator the error calculator
+     */
     public NetworkTrainer(NeuralNetwork neuralNetwork, ErrorCalculator errorCalculator) {
         this.neuralNetwork = neuralNetwork;
         this.errorCalculator = errorCalculator;
     }
 
+    /**
+     * Trains network.
+     *
+     * @param generator the training data generator
+     * @param learningOptions the learning options
+     * @param outputFileGenerator the output file generator
+     */
     public void trainNetwork(TrainingDataGenerator generator, LearningOptions learningOptions, OutputFileGenerator outputFileGenerator) {
         double error;
         OutputInformation outputInformation = new OutputInformation();
@@ -51,6 +67,7 @@ public class NetworkTrainer {
 
     void displayResults(TrainingDataGenerator generator) {
         Logger.getAnonymousLogger().info(MessageFormat.format("Results for network: {0}", neuralNetwork.getName()));
+        Logger.getAnonymousLogger().info(neuralNetwork.getWeights().toString());
         double[][] inputs = generator.getTrainingData().getInputs();
         for (double[] input : inputs) {
             displaySingleResult(input);
@@ -65,7 +82,7 @@ public class NetworkTrainer {
     }
 
     private double train(TrainingData learningEntries, LearningOptions learningOptions) {
-        double error = 0;
+        double error = 0, currentError;
         double[][] inputs = learningEntries.getInputs();
         double[][] expectedOutputs = learningEntries.getOutputs();
 
@@ -73,9 +90,12 @@ public class NetworkTrainer {
             neuralNetwork.setInputs(inputs[i]);
             double[] output = neuralNetwork.getOutput();
 
-            calculateErrors(expectedOutputs[i], output);
-            adjustWeights(learningOptions);
-            error += errorCalculator.calculate(output, expectedOutputs[i]);
+            currentError = errorCalculator.calculate(output, expectedOutputs[i]);
+            if(currentError != 0) {
+                calculateErrors(expectedOutputs[i], output);
+                adjustWeights(learningOptions);
+            }
+            error += currentError;
         }
         return error;
     }
@@ -110,7 +130,7 @@ public class NetworkTrainer {
 
     private double getNewLearningRate(LearningOptions learningOptions) {
         return learningOptions.getCharacteristicTime() > 0 ?
-                learningOptions.getLearningRate() / (1 + (Double.valueOf(currentEpoch) / learningOptions.getCharacteristicTime()))
+                learningOptions.getLearningRate() / (1 + (double) currentEpoch / learningOptions.getCharacteristicTime())
                 : learningOptions.getLearningRate();
     }
 
@@ -162,6 +182,11 @@ public class NetworkTrainer {
         return sum;
     }
 
+    /**
+     * Gets neural network.
+     *
+     * @return the neural network
+     */
     public NeuralNetwork getNeuralNetwork() {
         return neuralNetwork;
     }

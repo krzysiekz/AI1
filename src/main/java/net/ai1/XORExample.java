@@ -13,7 +13,7 @@ public class XORExample {
 
         NeuralNetwork untrained = createUntrainedXorNeuralNetwork();
         TrainingDataGenerator xorTrainingDataGenerator = new XorTrainingDataGenerator();
-        LearningOptions options = new LearningOptions(0.1, 0.001, 0.9, 0, 10000000);
+        LearningOptions options = new LearningOptions(0.01, 0.001, 0.9, 0, 10000000);
         NetworkTrainer trainer = new NetworkTrainer(untrained, new SquareErrorCalculator());
         OutputFileGenerator outputFileGenerator = new OutputFileGenerator();
         trainer.trainNetwork(xorTrainingDataGenerator, options, outputFileGenerator);

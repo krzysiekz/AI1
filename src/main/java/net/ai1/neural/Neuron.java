@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Neuron.
+ */
 public class Neuron implements Serializable {
 
     private final List<Connection> inputs;
@@ -15,16 +18,31 @@ public class Neuron implements Serializable {
     private double weightedSum;
     private double error;
 
+    /**
+     * Instantiates a new Neuron.
+     *
+     * @param activationFunction the activation function
+     */
     public Neuron(ActivationFunction activationFunction) {
         inputs = new ArrayList<>();
         this.activationFunction = activationFunction;
         error = 0;
     }
 
+    /**
+     * Adds input.
+     *
+     * @param input the input
+     */
     public void addInput(Connection input) {
         inputs.add(input);
     }
 
+    /**
+     * Gets inputs.
+     *
+     * @return the inputs
+     */
     public List<Connection> getInputs() {
         return this.inputs;
     }
@@ -36,28 +54,56 @@ public class Neuron implements Serializable {
         }
     }
 
+    /**
+     * Activates.
+     */
     public void activate() {
         calculateWeightedSum();
         output = activationFunction.activate(weightedSum);
         derivative = activationFunction.derivative(weightedSum);
     }
 
+    /**
+     * Gets output.
+     *
+     * @return the output
+     */
     public double getOutput() {
         return this.output;
     }
 
+    /**
+     * Sets output.
+     *
+     * @param output the output
+     */
     public void setOutput(double output) {
         this.output = output;
     }
 
+    /**
+     * Gets derivative.
+     *
+     * @return the derivative
+     */
     public double getDerivative() {
         return this.derivative;
     }
 
+    /**
+     * Gets error.
+     *
+     * @return the error
+     */
     public double getError() {
         return error;
     }
 
+    /**
+     * Sets error.
+     *
+     * @param error the error
+     */
     public void setError(double error) {
         this.error = error;
     }
